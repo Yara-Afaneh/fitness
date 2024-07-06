@@ -3,7 +3,6 @@ import multer from 'multer'
 export const fileType={
     image:['image/png','image/jpeg','image/webp','image/jpg'],
     pdf:['application/pdf'],
-    excel:['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
 }
 function fileUpload(customeType=[]){
     const storage = multer.diskStorage({})

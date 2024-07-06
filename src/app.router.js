@@ -3,7 +3,7 @@ import adminRouter from "./modules/admin/admin.router.js"
 import AuthRouter from "./modules/auth/auth.router.js"
 import userRouter from "./modules/user/user.router.js"
 import reviewsRouter from "./modules/review/review.router.js"
-import plansRouter from "./modules/plans/plans.router.js"
+import programsRouter from "./modules/programs/programs.router.js"
 import classesRouter from "./modules/classes/classes.router.js"
 import exercisesRouter from "./modules/exercises/exercises.router.js"
 import regstrationRouter from "./modules/registration/registration.router.js"
@@ -22,7 +22,7 @@ const initApp=(app,express)=>{
     app.use('/user',userRouter);
     app.use('/admin',adminRouter);
     app.use('/reviews',reviewsRouter);
-    app.use('/plans',plansRouter);
+    app.use('/programs',programsRouter);
     app.use('/classes',classesRouter);
     app.use('/exercises',exercisesRouter);
     app.use('/regstration',regstrationRouter);
@@ -33,7 +33,8 @@ const initApp=(app,express)=>{
     }); 
 
     app.use((err,req,res,next)=>{
-        res.status(err.statuscode).json({message:err.message});
+        const statusCode = err.statuscode || 500
+        res.status(statusCode).json({message:err.message});
     })
 
 }
