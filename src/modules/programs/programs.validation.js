@@ -6,9 +6,7 @@ export const addProgramSchema=joi.object({
     programName:joi.string().required(),
     image:generalFeilds.image,
     description:joi.string().required(),
-    duration:joi.string().required().messages({
-        'string.pattern.base': 'Duration must be in HH:MM:SS format'
-    })
+    duration:joi.string().required(),
 });
 
 export const updateProgramSchema=joi.object({
@@ -27,5 +25,9 @@ export const updateProgramSchema=joi.object({
     duration:joi.string().optional().messages({
         'string.pattern.base': 'Duration must be in HH:MM:SS format'
     }),
+    id:generalFeilds.id,
+});
+
+export const deleteProgramSchema=joi.object({
     id:generalFeilds.id,
 });

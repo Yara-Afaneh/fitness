@@ -1,8 +1,7 @@
 import multer from 'multer'
 
 export const fileType={
-    image:['image/png','image/jpeg','image/webp','image/jpg'],
-    pdf:['application/pdf'],
+    image:['image/png','image/jpeg','image/webp','image/jpg']
 }
 function fileUpload(customeType=[]){
     const storage = multer.diskStorage({})

@@ -24,6 +24,9 @@ const programSchema = new Schema({
   createdby:{
     type:Types.ObjectId,ref:'admins'
   },
+  updatedby:{
+    type:Types.ObjectId,ref:'admins'
+  },
 
   },{
     timestamps:true,

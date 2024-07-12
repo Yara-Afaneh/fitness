@@ -9,6 +9,7 @@ export const getAll=async(req,res,next)=>{
 }
 
 export const addAdmin=async(req,res,next)=>{
+    const {role}=req.body;
 
     const user=await userModel.findById(req.params.id)
     if(!user){
@@ -21,7 +22,7 @@ export const addAdmin=async(req,res,next)=>{
         return next(new Apperror('user already admin',409));
     }
 
-    user.role='admin';
+    user.role=role;
     user.updatedby=req.user._id
 
     await user.save();

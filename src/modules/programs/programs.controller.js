@@ -1,4 +1,5 @@
 import programModel from './../../../DB/models/programs.model.js';
+import cloudinary from "../../ults/cloudinary.js";
 
 export const get=async(req,res)=>{
 
@@ -6,6 +7,7 @@ export const get=async(req,res)=>{
 }
 
 export const addProgram=async(req,res,next)=>{
+    
     const programName=req.body.name.toLowerCase();
     if(await programModel.findOne({programName})){
         return res.status(409).json({message:'program already exists'})
@@ -57,3 +59,17 @@ export const updateProgram=async(req,res,next)=>{
 
    
 };
+
+export const destroy=async (req, res, next) => {
+    const program=await programModel.findByIdAndDelete(req.params.id);
+
+    if(!program){
+        return res.status(404).json({message:'No program found'})
+    }
+    program.updatedby=req.user._id
+
+    await cloudinary.uploader.destroy(program.image.public_id);
+    return res.status(200).json({message:'success',program})
+}
+
+
