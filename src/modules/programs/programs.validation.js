@@ -3,14 +3,14 @@ import { generalFeilds } from "../../middleware/validation.js";
 
 
 export const addProgramSchema=joi.object({
-    programName:joi.string().required(),
+    name:joi.string().required(),
     image:generalFeilds.image,
     description:joi.string().required(),
     duration:joi.string().required(),
 });
 
 export const updateProgramSchema=joi.object({
-    programName:joi.string().optional(),
+    name:joi.string().required(),
     image:joi.object({
         fieldname:joi.string().required(),
         originalname:joi.string().required(),

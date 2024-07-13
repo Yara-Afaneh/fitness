@@ -1,10 +1,15 @@
 import mongoose, { Schema, Types, model } from 'mongoose';
 
 const programSchema = new Schema({
-  programName:{
+  name:{
     type:String,
     required:true,
   },
+  slug:{
+    type:String,
+    required:true,
+  
+ },
   duration:{
     type:Number,
     required:true,
@@ -13,10 +18,6 @@ const programSchema = new Schema({
     type:String,
     required:true,
   },
-  slug:{
-    type:String,
-    required:true,
- },
  image:{
    type:Object,
    required:true,
@@ -28,10 +29,19 @@ const programSchema = new Schema({
     type:Types.ObjectId,ref:'admins'
   },
 
-  },{
-    timestamps:true,
-  }
+},{
+  timestamps:true,
+  toJSON:{virtuals:true},
+  toObject:{virtuals:true}
+},
+
 );
+programSchema.virtual('class',{
+localField:'_id',
+foreignField:'programId',
+ref:'class'
+})
+;
 
 
 const programModel=model('programs',programSchema);

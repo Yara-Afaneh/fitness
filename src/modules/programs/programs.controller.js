@@ -1,18 +1,21 @@
 import programModel from './../../../DB/models/programs.model.js';
 import cloudinary from "../../ults/cloudinary.js";
+import slugify from 'slugify';
+import { Apperror } from '../../ults/Apperror.js';
 
 export const get=async(req,res)=>{
-
-    return res.json('programs')
+    const programs=await programModel.find({});
+    return res.status(200).json(programs);
 }
 
 export const addProgram=async(req,res,next)=>{
     
-    const programName=req.body.name.toLowerCase();
-    if(await programModel.findOne({programName})){
-        return res.status(409).json({message:'program already exists'})
+    const name=req.body.name;
+    if(await programModel.findOne({name})){
+        return next(new Apperror('program already exists',409));
     }
     req.body.slug=slugify(req.body.name)
+    
     const {secure_url,public_id}=await cloudinary.uploader.upload(req.file.path,{
         folder:`${process.env.APPNAME}/programs`
     })
@@ -25,7 +28,7 @@ export const addProgram=async(req,res,next)=>{
 
     const program=await programModel.create(req.body)
    
-   return res.json({message: program});
+    return next(new Apperror('success',201));
 }
 
 export const updateProgram=async(req,res,next)=>{
@@ -36,9 +39,9 @@ export const updateProgram=async(req,res,next)=>{
         return res.status(404).json({message:'program not found'});
     }
   
-    program.programName=req.body.name.toLowerCase();
+    program.name=req.body.name;
 
-    if(await programModel.findOne({programName:req.body.name,_id:{$ne:req.params.id}})){
+    if(await programModel.findOne({name:req.body.name,_id:{$ne:req.params.id}})){
         return res.status(409).json({message:'name already exists'})
     }
     program.slug=slugify(req.body.name);
@@ -51,8 +54,8 @@ export const updateProgram=async(req,res,next)=>{
   
     }
 
-    program.status=req.body.status;
-    program.updatedBy=req.user._id
+    program.description=req.body.description;
+    program.updatedby=req.user._id
     await program.save();
 
     return res.json({message:'Success',program})

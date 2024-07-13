@@ -1,30 +1,22 @@
 import mongoose, { Schema, Types, model } from 'mongoose';
 
-const exerciseSchema = new Schema({
+const classSchema = new Schema({
   name:{
     type:String,
     required:true,
   },
-  duration:{
+  numberOfExercise:{
     type:Number,
-    required:true,
-  },
-  description:{
-    type:String,
     required:true,
   },
   slug:{
     type:String,
     required:true,
  },
- image:{
-   type:Object,
-   required:true,
- },
- classId:{
+ programId:{
   type:Types.ObjectId,
   required:true,
-  ref:'class'
+  ref:'programs'
   
 },
   createdby:{
@@ -40,6 +32,6 @@ const exerciseSchema = new Schema({
 );
 
 
-const exerciseModel=model('exercises',exerciseSchema);
+const classModel=model('class',classSchema);
 
-export default exerciseModel
+export default classModel
