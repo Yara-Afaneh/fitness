@@ -2,6 +2,7 @@
 import slugify from 'slugify';
 import classModel from '../../../DB/models/class.model.js';
 import programModel from './../../../DB/models/programs.model.js';
+import { Apperror } from './../../ults/Apperror.js';
 
 
 
@@ -17,7 +18,7 @@ export const addClass=async(req,res,next)=>{
       const programs=await programModel.findById(programId);
 
     if(!programs){
-        return res.status(404).json({message: 'No program found'})
+        return next(new Apperror('no program found',404));
     }
  
     const name=req.body.name.toLowerCase();
@@ -30,7 +31,7 @@ export const addClass=async(req,res,next)=>{
 
     const classes=await classModel.create(req.body)
    
-   return res.json({message: classes});
+    return next(new Apperror('success',201));
 };
 
 export const updateClass=async(req,res,next)=>{
@@ -38,7 +39,7 @@ export const updateClass=async(req,res,next)=>{
     const classes=await classModel.findById(req.params.id);
    
     if(!classes){
-        return res.status(404).json({message:'class not found'});
+        return next(new Apperror('class not found',404));
     }
   
     classes.name=req.body.name.toLowerCase();
@@ -53,7 +54,7 @@ export const updateClass=async(req,res,next)=>{
 
     await classes.save();
 
-    return res.json({message:'Success',classes})
+    return next(new Apperror('success',201));
 
    
 };
@@ -62,11 +63,10 @@ export const destroy=async (req, res, next) => {
     const classes=await classModel.findByIdAndDelete(req.params.id);
 
     if(!classes){
-        return res.status(404).json({message:'No class found'})
+        return next(new Apperror('no class found',404));
     }
     classes.updatedby=req.user._id
-
-    return res.status(200).json({message:'success',classes})
+    return next(new Apperror('success',201));
 }
 
 

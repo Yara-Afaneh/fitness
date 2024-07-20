@@ -6,7 +6,7 @@ export const addAdminSchema=joi.object({
   });
 
 export const updateSchema=joi.object({
-  userName:joi.string().alphanum().min(3).max(20).optional(),
+  userName:joi.string().alphanum().min(3).max(20).required(),
   password:joi.string().min(8).max(20).optional(),
   address:joi.string().optional(),
   phoneNumber:joi.string().optional(),

@@ -6,7 +6,7 @@ import reviewsRouter from "./modules/review/review.router.js"
 import programsRouter from "./modules/programs/programs.router.js"
 import classesRouter from "./modules/class/class.router.js"
 import exercisesRouter from "./modules/exercises/exercises.router.js"
-import regstrationRouter from "./modules/registration/registration.router.js"
+import registrationRouter from "./modules/registration/registration.router.js"
 import connectDB from "../DB/connection.js"
 import cors from 'cors'
 
@@ -25,7 +25,7 @@ const initApp=(app,express)=>{
     app.use('/programs',programsRouter);
     app.use('/classes',classesRouter);
     app.use('/exercises',exercisesRouter);
-    app.use('/regstration',regstrationRouter);
+    app.use('/registration',registrationRouter);
 
     app.get('*',(req,res)=>{
         return res.status(404).json({message:"page not found"});

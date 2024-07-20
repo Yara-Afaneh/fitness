@@ -1,3 +1,4 @@
+
 import mongoose, { Schema, Types, model } from 'mongoose';
 
 const programSchema = new Schema({
@@ -21,6 +22,10 @@ const programSchema = new Schema({
  image:{
    type:Object,
    required:true,
+ },
+ price:{
+  type:Number,
+  required:true,
  },
   createdby:{
     type:Types.ObjectId,ref:'admins'

@@ -7,7 +7,7 @@ import { loginSchema, registerSchema, sendCodeSchema,forgetPasswordSchema} from 
 import fileUpload, { fileType } from "../../ults/multer.js";
 const router=Router();
 
-router.post('/register',validation(registerSchema),checkemail,asyncHandlar(authController.register))
+router.post('/register',validation(registerSchema),checkemail,asyncHandlar(authController.registerUser))
 router.get('/confirmemail/:token',asyncHandlar(authController.confirmEmail))
 router.get('/login',validation(loginSchema),asyncHandlar(authController.login))
 router.patch('/sendCode',validation(sendCodeSchema),asyncHandlar(authController.sendCode))

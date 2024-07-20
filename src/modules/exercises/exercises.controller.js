@@ -2,6 +2,7 @@ import slugify from "slugify";
 import exerciseModel from "../../../DB/models/exercises.model.js";
 import cloudinary from "../../ults/cloudinary.js";
 import classModel from './../../../DB/models/class.model.js';
+import { Apperror } from './../../ults/Apperror.js';
 
 
 
@@ -17,7 +18,7 @@ export const addExersise=async(req,res,next)=>{
       const classes=await classModel.findById(classId);
 
     if(!classes){
-        return res.status(404).json({message: 'No class found'})
+        return next(new Apperror('no class found',404));
     }
  
     const name=req.body.name.toLowerCase();
@@ -35,7 +36,7 @@ export const addExersise=async(req,res,next)=>{
 
     const exercise=await exerciseModel.create(req.body)
    
-   return res.json({message: exercise});
+    return next(new Apperror('success',201));
 }
 
 export const updateExercise=async(req,res,next)=>{
@@ -43,13 +44,13 @@ export const updateExercise=async(req,res,next)=>{
     const exercise=await exerciseModel.findById(req.params.id);
    
     if(!exercise){
-        return res.status(404).json({message:'exercise not found'});
+        return next(new Apperror('exercise not found',404));
     }
   
     exercise.name=req.body.name.toLowerCase();
 
     if(await exerciseModel.findOne({name:req.body.name,_id:{$ne:req.params.id}})){
-        return res.status(409).json({message:'name already exists'})
+        return next(new Apperror('name already exists',409));
     }
     exercise.slug=slugify(req.body.name);
     if(req.file){
@@ -66,7 +67,7 @@ export const updateExercise=async(req,res,next)=>{
     exercise.updatedby=req.user._id
     await exercise.save();
 
-    return res.json({message:'Success',exercise})
+    return next(new Apperror('success',201));
 
    
 };
@@ -75,12 +76,12 @@ export const destroy=async (req, res, next) => {
     const exercise=await exerciseModel.findByIdAndDelete(req.params.id);
 
     if(!exercise){
-        return res.status(404).json({message:'No exercise found'})
+        return next(new Apperror('no exercise found ',404));
     }
     exercise.updatedby=req.user._id
 
     await cloudinary.uploader.destroy(exercise.image.public_id);
-    return res.status(200).json({message:'success',exercise})
+    return next(new Apperror('success',201));
 }
 
 

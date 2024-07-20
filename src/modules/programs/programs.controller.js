@@ -5,7 +5,7 @@ import { Apperror } from '../../ults/Apperror.js';
 
 export const get=async(req,res)=>{
     const programs=await programModel.find({});
-    return res.status(200).json(programs);
+    return next(new Apperror('success',201));
 }
 
 export const addProgram=async(req,res,next)=>{
@@ -36,13 +36,13 @@ export const updateProgram=async(req,res,next)=>{
     const program=await programModel.findById(req.params.id);
    
     if(!program){
-        return res.status(404).json({message:'program not found'});
+        return next(new Apperror('program not found',404));
     }
   
     program.name=req.body.name;
 
     if(await programModel.findOne({name:req.body.name,_id:{$ne:req.params.id}})){
-        return res.status(409).json({message:'name already exists'})
+        return next(new Apperror('name already exists',409));
     }
     program.slug=slugify(req.body.name);
     if(req.file){
@@ -58,7 +58,7 @@ export const updateProgram=async(req,res,next)=>{
     program.updatedby=req.user._id
     await program.save();
 
-    return res.json({message:'Success',program})
+    return next(new Apperror('success',201));
 
    
 };
@@ -67,12 +67,12 @@ export const destroy=async (req, res, next) => {
     const program=await programModel.findByIdAndDelete(req.params.id);
 
     if(!program){
-        return res.status(404).json({message:'No program found'})
+        return next(new Apperror('no prgram found',404));
     }
     program.updatedby=req.user._id
 
     await cloudinary.uploader.destroy(program.image.public_id);
-    return res.status(200).json({message:'success',program})
+    return next(new Apperror('success',201));
 }
 
 

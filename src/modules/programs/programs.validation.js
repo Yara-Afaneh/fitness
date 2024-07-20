@@ -7,6 +7,7 @@ export const addProgramSchema=joi.object({
     image:generalFeilds.image,
     description:joi.string().required(),
     duration:joi.string().required(),
+    price:joi.number().required(),
 });
 
 export const updateProgramSchema=joi.object({
