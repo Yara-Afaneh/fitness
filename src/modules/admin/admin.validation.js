@@ -11,4 +11,8 @@ export const updateAdminSchema=joi.object({
      status:joi.string().valid('active','not_active').required(),
 })
 
+export const deleteAdminSchema=joi.object({
+     id:generalFeilds.id,
+})
+
 

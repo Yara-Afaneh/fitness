@@ -3,7 +3,7 @@ import cloudinary from "../../ults/cloudinary.js";
 import slugify from 'slugify';
 import { Apperror } from '../../ults/Apperror.js';
 
-export const get=async(req,res)=>{
+export const get=async(req,res,next)=>{
     const programs=await programModel.find({});
     return next(new Apperror('success',201));
 }

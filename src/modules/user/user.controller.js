@@ -1,6 +1,7 @@
 import userModel from "../../../DB/models/user.model.js"
+import { Apperror } from "../../ults/Apperror.js";
 
-export const getUserData=async(req,res)=>{
+export const getUserData=async(req,res,next)=>{
     const user=await userModel.find(req.user._id)
      
     return next(new Apperror('success',201));

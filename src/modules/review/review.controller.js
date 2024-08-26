@@ -2,7 +2,7 @@ import reviewModel from '../../../DB/models/review.model.js';
 import { Apperror } from '../../ults/Apperror.js';
 import registrationModel from './../../../DB/models/registration.model.js';
 
-export const get=async(req,res)=>{
+export const get=async(req,res,next)=>{
     const programId=req.params.id;
     const reviews=await reviewModel.find({programId:programId});
      
@@ -13,7 +13,7 @@ export const get=async(req,res)=>{
 }
     
 
-export const addreview=async(req,res)=>{
+export const addreview=async(req,res,next)=>{
 
     const programId=req.params.id;
     const {comment,rating}=req.body;
