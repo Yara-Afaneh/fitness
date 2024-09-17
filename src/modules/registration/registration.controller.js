@@ -13,21 +13,29 @@ export const get=async(req,res,next)=>{
 export const addregistration=async(req,res,next)=>{
     
     const {id}=req.params;
+    const date= req.body.date;
   
       const program=await programModel.findById(id);
     if(!program){
         return next(new Apperror('no program found',404));
     }
-
     const checkRegister = await registrationModel.findOne({
         userId: req.user._id,
         'program.programId':id,
     });
-    
-      if(checkRegister){
-          return res.status(400).json({ message:'program already register' });
-      }
+
+    if(checkRegister){
+        return res.status(400).json({ message:'program already register' });
+    }
+    const checkDate = await registrationModel.findOne({
+        userId: req.user._id,
+       date:date
+    });
   
+    if(checkDate){
+        return res.json({ message:'cant register 2 programs at the same time' });
+    }
+
       const registration = await registrationModel.create({
         userId: req.user._id,
         program: {
@@ -35,6 +43,7 @@ export const addregistration=async(req,res,next)=>{
             name: program.name,
             price: program.price
         },
+        date:date
     });
    
  

@@ -7,6 +7,9 @@ const registrationSchema = new Schema({
     ref:'user',
     required:true,
    },
+   date:{
+      type:Date,
+   },
    program:[{
       name:{type:String},
       programId:{type:Types.ObjectId,ref:'programs',required:true},
